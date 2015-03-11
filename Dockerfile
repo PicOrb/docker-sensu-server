@@ -24,12 +24,6 @@ RUN echo "hiroakis ALL=(ALL) ALL" >> /etc/sudoers.d/hiroakis
 RUN yum install -y redis
 
 # RabbitMQ
-RUN git clone git://github.com/joemiller/joemiller.me-intro-to-sensu.git
-RUN cd joemiller.me-intro-to-sensu/; ./ssl_certs.sh clean && ./ssl_certs.sh generate
-RUN mkdir /etc/rabbitmq/ssl
-RUN cp /joemiller.me-intro-to-sensu/server_cert.pem /etc/rabbitmq/ssl/cert.pem
-RUN cp /joemiller.me-intro-to-sensu/server_key.pem /etc/rabbitmq/ssl/key.pem
-RUN cp /joemiller.me-intro-to-sensu/testca/cacert.pem /etc/rabbitmq/ssl/
 ADD ./files/rabbitmq.config /etc/rabbitmq/
 
 # Sensu server
