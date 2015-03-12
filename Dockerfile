@@ -2,29 +2,8 @@ FROM picorb/rabbitmq-base
 
 MAINTAINER Hiroaki Sano <hiroaki.sano.9stories@gmail.com>
 
-# Basic packages
-RUN rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm
-RUN yum install -y passwd
-RUN yum install -y sudo
-RUN yum install -y git
-RUN yum install -y wget
-RUN yum install -y openssl
-RUN yum install -y openssh
-RUN yum install -y openssh-server
-RUN yum install -y openssh-clients
-
-# Create user
-RUN useradd hiroakis
-RUN echo "hiroakis" | passwd hiroakis --stdin
-RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
-RUN sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
-RUN echo "hiroakis ALL=(ALL) ALL" >> /etc/sudoers.d/hiroakis
-
 # Redis
 RUN yum install -y redis
-
-# RabbitMQ
-ADD ./files/rabbitmq.config /etc/rabbitmq/
 
 # Sensu server
 ADD ./files/sensu.repo /etc/yum.repos.d/
@@ -43,10 +22,6 @@ RUN wget http://peak.telecommunity.com/dist/ez_setup.py;python ez_setup.py
 RUN easy_install supervisor
 ADD files/supervisord.conf /etc/supervisord.conf
 
-RUN /etc/init.d/sshd start
-RUN /etc/init.d/sshd stop
-
-EXPOSE 22 3000 4567 5671 15672
+EXPOSE 3000 4369 4567 5672 5671 15672
 
 CMD ["/usr/bin/supervisord"]
-
