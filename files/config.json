@@ -1,6 +1,6 @@
 {
   "rabbitmq": {
-    "host": "backends",
+    "host": "master.rabbitmq.skydns.local",
     "port": 5671,
     "vhost": "/sensu",
     "user": "sensu",
@@ -11,7 +11,7 @@
     }
   },
   "redis": {
-    "host": "localhost",
+    "host": "master.redis.skydns.local",
     "port": 6379
   },
   "api": {
