@@ -14,7 +14,7 @@ RUN yum install -y \
 # Sensu server
 ADD ./files/sensu.repo /etc/yum.repos.d/
 ADD ./files/config.json /etc/sensu/
-RUN gem install sensu-plugin --no-rdoc --no-ri && \
+RUN /usr/bin/gem install sensu-plugin --no-rdoc --no-ri && \
     mkdir -p /etc/sensu/ssl && \
     cp /joemiller.me-intro-to-sensu/client_cert.pem /etc/sensu/ssl/cert.pem && \
     cp /joemiller.me-intro-to-sensu/client_key.pem /etc/sensu/ssl/key.pem
