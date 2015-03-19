@@ -4,12 +4,12 @@ MAINTAINER Hiroaki Sano <hiroaki.sano.9stories@gmail.com>
 
 # Redis
 RUN yum install -y \
-    redis ruby \
-    sensu uchiwa
+    redis \
+    sensu uchiwa \
     gcc g++ make \
     automake autoconf \
     curl-devel openssl-devel zlib-devel httpd-devel apr-devel apr-util-devel sqlite-devel \
-    ruby-dev build-essential ruby-rdoc ruby-devel rubygems
+    ruby ruby-dev build-essential ruby-rdoc ruby-devel rubygems
 
 # Sensu server
 ADD ./files/sensu.repo /etc/yum.repos.d/
