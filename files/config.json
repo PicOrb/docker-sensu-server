@@ -18,10 +18,5 @@
     "host": "localhost",
     "bind": "0.0.0.0",
     "port": 4567
-  },
-  "client": {
-    "name": "uchiwa",
-    "address": "127.0.0.1",
-    "subscriptions": [ "ALL" ]
   }
 }
