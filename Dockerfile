@@ -18,6 +18,11 @@ RUN /usr/bin/gem install sensu-plugin --no-rdoc --no-ri && \
     mkdir -p /etc/sensu/ssl && \
     cp /joemiller.me-intro-to-sensu/client_cert.pem /etc/sensu/ssl/cert.pem && \
     cp /joemiller.me-intro-to-sensu/client_key.pem /etc/sensu/ssl/key.pem
+    
+RUN rm -rf /etc/sensu/plugins && \
+    git clone https://github.com/sensu/sensu-community-plugins.git /tmp/sensu_plugins && \
+    cp -Rpf /tmp/sensu_plugins/plugins /etc/sensu/ && \
+    find /etc/sensu/plugins/ -name *.rb -exec chmod +x {} \;
 
 # uchiwa
 ADD ./files/uchiwa.json /etc/sensu/
