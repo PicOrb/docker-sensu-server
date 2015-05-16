@@ -1,8 +1,8 @@
 {
   "sensu": [
     {
-      "name": "Sensu",
-      "host": "127.0.0.1",
+      "name": "sensu",
+      "host": "localhost",
       "ssl": false,
       "port": 4567,
       "user": "",
