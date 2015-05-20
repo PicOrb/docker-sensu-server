@@ -75,6 +75,15 @@ EOF
     fi
 fi
 
+rm /etc/default/sensu
+if [ ! -z "$SENSU_CLIENT_INIT_CONFIG_URL" ] ; then
+    wget --no-check-certificate -O /etc/default/sensu $SENSU_CLIENT_INIT_CONFIG_URL
+else
+    cat << EOF > /etc/default/sensu
+EMBEDDED_RUBY=true
+EOF
+fi
+
 if [ ! -z "$SENSU_CHECKS_CONFIG_URL" ] ; then
     wget --no-check-certificate -O /etc/sensu/conf.d/checks.json $SENSU_CHECKS_CONFIG_URL
 else
