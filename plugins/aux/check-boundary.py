@@ -8,6 +8,10 @@ from walrus import *
 #from redis import *
 import math
 from requests.auth import HTTPBasicAuth
+
+import warnings
+from requests.packages.urllib3 import exceptions
+
 db = Database(host='localhost', port=6379, db=0)
 
 class FooBarBazMetricJSON(SensuPluginMetricJSON):
@@ -24,7 +28,10 @@ class FooBarBazMetricJSON(SensuPluginMetricJSON):
         token_curl = curl('https://{0}/iam/v1/authenticate'.format(api), '-s', '-k', '-X', 'POST', '-H', 'Accept: application/json', '--user', '2A6B0U16535H6X0D5822:$2a$12$WB8KmRcUnGpf1M6oEdLBe.GrfBEaa94U4QMBTPMuVWktWZf91AJk')
         url = 'https://{0}/assets/v1/67000001/environments/814C2911-09BB-1005-9916-7831C1BAC182/remediations'.format(api)
         headers = {'X-Iam-Auth-Token': json.loads(str(token_curl))['authentication']['token'], 'X-Request-Id': 'DEADBEEF'}
-        r = requests.get(url, headers=headers)
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", exceptions.InsecureRequestWarning)        
+            r = requests.get(url, headers=headers, verify=False)
         print r
         a.remove(current)
         a.add(current, r.elapsed.microseconds)

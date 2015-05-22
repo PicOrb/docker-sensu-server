@@ -7,7 +7,7 @@ RUN rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 ADD ./files/sensu.repo /etc/yum.repos.d/
 RUN yum --enablerepo=remi,remi-test install -y \
     redis \
-    gcc g++ make \
+    gcc g++ gcc-c++ make \
     automake autoconf \
     curl-devel openssl-devel zlib-devel httpd-devel apr-devel apr-util-devel sqlite-devel libevent-devel python-devel \
     ruby ruby-dev build-essential ruby-rdoc ruby-devel rubygems
@@ -30,7 +30,8 @@ ADD ./files/uchiwa.json /etc/sensu/
 
 # supervisord
 RUN wget http://peak.telecommunity.com/dist/ez_setup.py;python ez_setup.py && \
-    easy_install supervisor argparse sensu-plugin sh walrus requests==2.5.3 locustio
+    easy_install supervisor pip argparse sensu-plugin sh walrus requests==2.5.3 locustio && \
+    pip install pyzmq gevent-zeromq
 ADD files/supervisord.conf /etc/supervisord.conf
 ADD run.sh /tmp/sensu-run.sh
 RUN chmod +x /tmp/sensu-run.sh
