@@ -42,6 +42,14 @@ else
     "password": "$DASHBOARD_PASS"
   },
   "handlers": {
+    "graphite": {
+      "type": "udp",
+      "socket": {
+        "host": "grafana",
+        "port": 8125
+      },
+      "mutator": "only_check_output"
+    },
     "default": {
       "type": "pipe",
       "command": "true"
