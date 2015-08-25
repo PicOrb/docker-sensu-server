@@ -156,4 +156,4 @@ EOF
 fi
 
 /etc/init.d/uchiwa start
-/usr/bin/supervisord
+/usr/local/bin/supervisord

@@ -1,17 +1,19 @@
-FROM picorb/rabbitmq-base
+FROM picorb/rabbitmq-base:ubuntu
 
 MAINTAINER Hiroaki Sano <hiroaki.sano.9stories@gmail.com>
 
 # Redis
-RUN rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-ADD ./files/sensu.repo /etc/yum.repos.d/
-RUN yum --enablerepo=remi,remi-test install -y \
-    redis \
-    gcc g++ gcc-c++ make \
+#ADD files/sensu.repo /etc/yum.repos.d/
+RUN wget -q http://repos.sensuapp.org/apt/pubkey.gpg -O- | sudo apt-key add -
+RUN echo "deb     http://repos.sensuapp.org/apt sensu main" > /etc/apt/sources.list.d/sensu.list
+RUN apt-get update
+RUN apt-get install -y \
+    redis-server \
+    make \
     automake autoconf \
-    curl-devel openssl-devel zlib-devel httpd-devel apr-devel apr-util-devel sqlite-devel libevent-devel python-devel \
-    ruby ruby-dev build-essential ruby-rdoc ruby-devel rubygems
-RUN yum install -y sensu uchiwa
+    curl openssl sqlite libevent-dev python-dev \
+    ruby ruby-dev build-essential rubygems-integration
+RUN apt-get install -y sensu uchiwa
 
 # Sensu server
 #ADD ./files/config.json /etc/sensu/
@@ -26,7 +28,7 @@ RUN rm -rf /etc/sensu/plugins && \
     find /etc/sensu/plugins/ -name *.rb -exec chmod +x {} \;
 
 # uchiwa
-ADD ./files/uchiwa.json /etc/sensu/
+ADD files/uchiwa.json /etc/sensu/
 
 # supervisord
 RUN wget http://peak.telecommunity.com/dist/ez_setup.py;python ez_setup.py && \
